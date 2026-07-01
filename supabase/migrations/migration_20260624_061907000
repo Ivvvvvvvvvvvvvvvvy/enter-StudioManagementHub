@@ -1,0 +1,3 @@
+-- Clear all Zenith AI conversation history (custom agent threads).
+DELETE FROM custom_agent_threads
+WHERE agent_id = 'cd0e6742-c79f-4361-8a6c-b07a808cc36c';

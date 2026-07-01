@@ -1,0 +1,4 @@
+UPDATE course_media
+SET video_url = NULL, status = 'done'
+WHERE course_id = 'course-4'
+  AND video_url LIKE '%kechuangai.com%';

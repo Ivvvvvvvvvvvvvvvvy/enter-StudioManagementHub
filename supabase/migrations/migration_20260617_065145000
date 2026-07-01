@@ -1,0 +1,91 @@
+
+-- bookings
+create table if not exists bookings (
+  id text primary key,
+  session_id text not null,
+  customer_id text not null,
+  status text not null,
+  notes text default '',
+  created_at text not null
+);
+alter table bookings enable row level security;
+create policy "allow_all_bookings" on bookings for all using (true) with check (true);
+
+-- membership_cards
+create table if not exists membership_cards (
+  id text primary key,
+  customer_id text not null,
+  type text not null,
+  total_sessions integer,
+  used_sessions integer not null default 0,
+  price numeric not null,
+  expiry text not null,
+  purchase_date text not null,
+  is_active boolean not null default true
+);
+alter table membership_cards enable row level security;
+create policy "allow_all_cards" on membership_cards for all using (true) with check (true);
+
+-- orders
+create table if not exists orders (
+  id text primary key,
+  customer_id text not null,
+  type text not null,
+  amount numeric not null,
+  status text not null,
+  description text not null,
+  created_at text not null,
+  membership_card_id text
+);
+alter table orders enable row level security;
+create policy "allow_all_orders" on orders for all using (true) with check (true);
+
+-- private_lessons
+create table if not exists private_lessons (
+  id text primary key,
+  customer_id text not null,
+  coach_id text not null,
+  datetime text not null,
+  duration integer not null,
+  status text not null,
+  notes text default '',
+  price numeric not null,
+  created_at text not null
+);
+alter table private_lessons enable row level security;
+create policy "allow_all_private_lessons" on private_lessons for all using (true) with check (true);
+
+-- conversations
+create table if not exists conversations (
+  id text primary key,
+  customer_id text not null,
+  participant_id text not null,
+  participant_role text not null,
+  session_id text,
+  last_message text,
+  last_message_at text not null,
+  created_at text not null
+);
+alter table conversations enable row level security;
+create policy "allow_all_conversations" on conversations for all using (true) with check (true);
+
+-- messages
+create table if not exists messages (
+  id text primary key,
+  conversation_id text not null,
+  sender_id text not null,
+  text text not null,
+  created_at text not null,
+  read boolean not null default false
+);
+alter table messages enable row level security;
+create policy "allow_all_messages" on messages for all using (true) with check (true);
+
+-- attendances
+create table if not exists attendances (
+  booking_id text primary key,
+  status text not null,
+  marked_at text
+);
+alter table attendances enable row level security;
+create policy "allow_all_attendances" on attendances for all using (true) with check (true);

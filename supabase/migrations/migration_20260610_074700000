@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS course_media (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  course_id text NOT NULL UNIQUE,
+  description text,
+  images jsonb DEFAULT '[]'::jsonb,
+  image_task_ids jsonb DEFAULT '[]'::jsonb,
+  video_url text,
+  video_task_id text,
+  status text DEFAULT 'idle',
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE course_media ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read course_media" ON course_media FOR SELECT USING (true);
+CREATE POLICY "Allow all writes course_media" ON course_media FOR ALL USING (true);

@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* === Green Serenity: Emerald · Off-White · Deep Forest === */
+    --background: 150 15% 98%;       /* warm off-white with green tint */
+    --foreground: 0 0% 7%;           /* #111111 deep black */
+
+    --card: 0 0% 100%;               /* #FFFFFF pure white */
+    --card-foreground: 0 0% 7%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 7%;
+
+    --primary: 158 65% 33%;          /* #1D9E6A rich emerald green */
+    --primary-foreground: 0 0% 100%;
+
+    --primary-light: 158 65% 44%;
+    --primary-pale: 158 55% 95%;
+
+    --secondary: 150 10% 95%;        /* soft green-tinted gray */
+    --secondary-foreground: 0 0% 7%;
+
+    --muted: 150 10% 95%;
+    --muted-foreground: 160 8% 44%;  /* green-tinted slate */
+
+    --accent: 174 58% 30%;           /* deep teal accent */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 12% 88%;           /* green-tinted border */
+    --input: 150 12% 88%;
+    --ring: 158 65% 33%;
+
+    --radius: 0.5rem;                /* 8px */
+
+    /* Forest dark — for hero/banner sections */
+    --forest: 160 55% 13%;           /* #0E3D2C deep forest */
+    --forest-foreground: 0 0% 100%;
+
+    /* Course type colors (all green family) */
+    --color-yoga: 158 65% 33%;       /* emerald */
+    --color-pilates: 186 70% 36%;    /* aqua teal */
+    --color-meditation: 142 48% 42%; /* sage green */
+    --color-barre:       345 68% 44%;    /* rose */
+    --color-hiit:         22 90% 46%;    /* orange */
+    --color-dance:        38 85% 42%;    /* amber */
+    --color-boxing:      217 42% 38%;    /* slate blue */
+    --color-stretching:  168 58% 38%;    /* teal green */
+    --color-spin:        201 78% 40%;    /* cerulean */
+
+    /* Booking status */
+    --color-confirmed: 158 65% 33%;
+    --color-cancelled: 0 60% 55%;
+    --color-attended: 186 70% 36%;
+    --color-absent: 30 80% 55%;
+
+    /* Order status */
+    --color-paid: 158 65% 33%;
+    --color-pending: 38 80% 55%;
+    --color-refunded: 160 8% 55%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(160 55% 11%) 0%, hsl(160 50% 17%) 55%, hsl(158 45% 22%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(150 15% 98%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(150 15% 98%) 0%, hsl(150 10% 95%) 100%);
+
+    /* Shadows */
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 4px 6px rgba(0,0,0,0.04);
+    --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-primary: 0 4px 14px hsl(158 65% 33% / 0.28);
+
+    /* Sidebar — green active states */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 160 8% 38%;
+    --sidebar-primary: 158 65% 33%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 158 55% 95%;
+    --sidebar-accent-foreground: 158 60% 25%;
+    --sidebar-border: 150 12% 88%;
+    --sidebar-ring: 158 65% 33%;
+  }
+
+  .dark {
+    --background: 160 14% 9%;
+    --foreground: 150 12% 92%;
+    --card: 160 14% 13%;
+    --card-foreground: 150 12% 92%;
+    --popover: 160 14% 13%;
+    --popover-foreground: 150 12% 92%;
+    --primary: 158 65% 44%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 158 65% 54%;
+    --primary-pale: 158 60% 18%;
+    --secondary: 160 14% 17%;
+    --secondary-foreground: 150 12% 85%;
+    --muted: 160 14% 17%;
+    --muted-foreground: 160 8% 55%;
+    --accent: 174 58% 38%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 160 14% 20%;
+    --input: 160 14% 20%;
+    --ring: 158 65% 44%;
+    --sidebar-background: 160 14% 9%;
+    --sidebar-foreground: 150 12% 70%;
+    --sidebar-primary: 158 65% 44%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 158 60% 16%;
+    --sidebar-accent-foreground: 158 65% 60%;
+    --sidebar-border: 160 14% 18%;
+    --sidebar-ring: 158 65% 44%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Utility classes */
+@layer utilities {
+  .gradient-hero { background: var(--gradient-hero); }
+  .gradient-card { background: var(--gradient-card); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-card-hover { box-shadow: var(--shadow-card-hover); }
+  .shadow-primary { box-shadow: var(--shadow-primary); }
+
+  .bg-forest { background-color: hsl(var(--forest)); }
+  .text-forest-fg { color: hsl(var(--forest-foreground)); }
+
+  .card-hover {
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .card-hover:hover {
+    border-color: hsl(var(--primary) / 0.25);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .section-divider {
+    border-top: 1px solid hsl(var(--border));
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .text-yoga { color: hsl(var(--color-yoga)); }
+  .text-pilates { color: hsl(var(--color-pilates)); }
+  .text-meditation { color: hsl(var(--color-meditation)); }
+  .bg-yoga { background-color: hsl(var(--color-yoga)); }
+  .bg-pilates { background-color: hsl(var(--color-pilates)); }
+  .bg-meditation { background-color: hsl(var(--color-meditation)); }
+  .bg-yoga-pale { background-color: hsl(var(--color-yoga) / 0.10); }
+  .bg-pilates-pale { background-color: hsl(var(--color-pilates) / 0.10); }
+  .bg-meditation-pale { background-color: hsl(var(--color-meditation) / 0.10); }
+  .text-barre       { color: hsl(var(--color-barre)); }
+  .text-hiit        { color: hsl(var(--color-hiit)); }
+  .text-dance       { color: hsl(var(--color-dance)); }
+  .text-boxing      { color: hsl(var(--color-boxing)); }
+  .text-stretching  { color: hsl(var(--color-stretching)); }
+  .text-spin        { color: hsl(var(--color-spin)); }
+  .bg-barre         { background-color: hsl(var(--color-barre)); }
+  .bg-hiit          { background-color: hsl(var(--color-hiit)); }
+  .bg-dance         { background-color: hsl(var(--color-dance)); }
+  .bg-boxing        { background-color: hsl(var(--color-boxing)); }
+  .bg-stretching    { background-color: hsl(var(--color-stretching)); }
+  .bg-spin          { background-color: hsl(var(--color-spin)); }
+  .bg-barre-pale    { background-color: hsl(var(--color-barre) / 0.10); }
+  .bg-hiit-pale     { background-color: hsl(var(--color-hiit) / 0.10); }
+  .bg-dance-pale    { background-color: hsl(var(--color-dance) / 0.10); }
+  .bg-boxing-pale   { background-color: hsl(var(--color-boxing) / 0.10); }
+  .bg-stretching-pale { background-color: hsl(var(--color-stretching) / 0.10); }
+  .bg-spin-pale     { background-color: hsl(var(--color-spin) / 0.10); }
+}
+
+/* ── Login panel animations ──────────────────────────────── */
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    opacity: 0.10; }
+  50%       { transform: scale(1.18); opacity: 0.20; }
+}
+@keyframes breathe-delay {
+  0%, 100% { transform: scale(1);    opacity: 0.06; }
+  50%       { transform: scale(1.25); opacity: 0.13; }
+}
+@keyframes float-a {
+  0%, 100% { transform: translate(0px, 0px)    scale(1);    }
+  30%       { transform: translate(18px, -28px) scale(1.05); }
+  70%       { transform: translate(-12px, -14px) scale(0.95); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translate(0px, 0px)    scale(1);   }
+  40%       { transform: translate(-22px, 18px) scale(1.08); }
+  80%       { transform: translate(14px, -20px) scale(0.92); }
+}
+@keyframes float-c {
+  0%, 100% { transform: translate(0px, 0px)   scale(1);    }
+  50%       { transform: translate(20px, 22px) scale(1.12); }
+}
+@keyframes morph-blob {
+  0%, 100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+  33%       { border-radius: 40% 60% 45% 55% / 60% 40% 60% 40%; }
+  66%       { border-radius: 55% 45% 60% 40% / 40% 55% 45% 60%; }
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Fitness icon drift animations ──────────────────────── */
+@keyframes drift-a {
+  0%,100% { transform: translate(0px,  0px)  rotate(-18deg) scale(1);    }
+  25%      { transform: translate(5px, -8px)  rotate(-16deg) scale(1.02); }
+  50%      { transform: translate(8px, -4px)  rotate(-20deg) scale(0.98); }
+  75%      { transform: translate(-4px,-10px) rotate(-15deg) scale(1.01); }
+}
+@keyframes drift-b {
+  0%,100% { transform: translate(0px,  0px)  rotate(8deg)  scale(1);    }
+  30%      { transform: translate(-6px, 7px)  rotate(6deg)  scale(1.03); }
+  60%      { transform: translate(5px,  10px) rotate(10deg) scale(0.97); }
+  85%      { transform: translate(-3px, 4px)  rotate(7deg)  scale(1.01); }
+}
+@keyframes drift-c {
+  0%,100% { transform: translate(0px, 0px)   rotate(12deg)  scale(1);    }
+  35%      { transform: translate(6px, -6px)  rotate(15deg)  scale(1.04); }
+  70%      { transform: translate(-5px,-3px)  rotate(10deg)  scale(0.96); }
+}
+@keyframes drift-d {
+  0%,100% { transform: translate(0px,  0px)  rotate(-10deg) scale(1);    }
+  40%      { transform: translate(-8px, 6px)  rotate(-13deg) scale(1.02); }
+  70%      { transform: translate(4px,  9px)  rotate(-8deg)  scale(0.98); }
+}
+@keyframes drift-e {
+  0%,100% { transform: translate(0px,  0px)  rotate(-5deg)  scale(1);    }
+  30%      { transform: translate(7px, -7px)  rotate(-3deg)  scale(1.03); }
+  65%      { transform: translate(-4px, 5px)  rotate(-7deg)  scale(0.97); }
+}
+@keyframes drift-f {
+  0%,100% { transform: translate(0px, 0px)   rotate(-20deg) scale(1);    }
+  45%      { transform: translate(5px, 8px)   rotate(-22deg) scale(1.05); }
+  80%      { transform: translate(-3px,4px)   rotate(-18deg) scale(0.97); }
+}
+@keyframes drift-g {
+  0%,100% { transform: translate(0px, 0px)   rotate(25deg)  scale(1);    }
+  50%      { transform: translate(-6px,-6px)  rotate(23deg)  scale(1.04); }
+}
+
+.animate-drift-a { animation: drift-a 14s ease-in-out infinite; }
+.animate-drift-b { animation: drift-b 18s ease-in-out infinite; }
+.animate-drift-c { animation: drift-c 12s ease-in-out infinite; }
+.animate-drift-d { animation: drift-d 16s ease-in-out infinite; }
+.animate-drift-e { animation: drift-e 20s ease-in-out infinite; }
+.animate-drift-f { animation: drift-f 11s ease-in-out infinite; }
+.animate-drift-g { animation: drift-g 15s ease-in-out infinite; }
+.animate-breathe-ring { animation: breathe-delay 9s ease-in-out infinite; }
+.animate-float-a      { animation: float-a 11s ease-in-out infinite; }
+.animate-float-b      { animation: float-b 14s ease-in-out infinite; }
+.animate-float-c      { animation: float-c  9s ease-in-out infinite; }
+.animate-morph        { animation: morph-blob 10s ease-in-out infinite; }
+.animate-slide-down   { animation: slide-down 0.25s ease-out both; }
+.animate-fade-in      { animation: fade-in 0.2s ease-out both; }
+
+/* Custom Agent markdown rendering */
+.agent-markdown > *:first-child { margin-top: 0; }
+.agent-markdown > *:last-child { margin-bottom: 0; }
+.agent-markdown p { margin: 0.5rem 0; }
+.agent-markdown h1, .agent-markdown h2, .agent-markdown h3 { font-weight: 600; margin: 0.85rem 0 0.4rem; line-height: 1.3; }
+.agent-markdown h1 { font-size: 1.1rem; }
+.agent-markdown h2 { font-size: 1.02rem; }
+.agent-markdown h3 { font-size: 0.95rem; }
+.agent-markdown ul, .agent-markdown ol { margin: 0.5rem 0; padding-left: 1.25rem; }
+.agent-markdown ul { list-style: disc; }
+.agent-markdown ol { list-style: decimal; }
+.agent-markdown li { margin: 0.2rem 0; }
+.agent-markdown a { color: hsl(var(--primary)); text-decoration: underline; }
+.agent-markdown code { background: hsl(var(--muted)); padding: 0.1rem 0.35rem; border-radius: 0.25rem; font-size: 0.85em; font-family: ui-monospace, monospace; }
+.agent-markdown pre { background: hsl(var(--muted)); padding: 0.75rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.6rem 0; }
+.agent-markdown pre code { background: transparent; padding: 0; }
+.agent-markdown blockquote { border-left: 3px solid hsl(var(--border)); padding-left: 0.75rem; color: hsl(var(--muted-foreground)); margin: 0.6rem 0; }
+.agent-markdown table { width: 100%; border-collapse: collapse; margin: 0.6rem 0; font-size: 0.85em; }
+.agent-markdown th, .agent-markdown td { border: 1px solid hsl(var(--border)); padding: 0.4rem 0.6rem; text-align: left; }
+.agent-markdown th { background: hsl(var(--muted)); font-weight: 600; }
+.agent-markdown hr { border: none; border-top: 1px solid hsl(var(--border)); margin: 0.8rem 0; }
