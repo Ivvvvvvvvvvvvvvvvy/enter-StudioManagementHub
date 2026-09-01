@@ -22,6 +22,7 @@ import MemberDetailPage from './pages/admin/MemberDetailPage';
 import AdminOrdersPage from './pages/admin/OrdersPage';
 import AdminSettingsPage from './pages/admin/SettingsPage';
 import MessagesPage from './pages/MessagesPage';
+import AIChatPage from './pages/AIChatPage';
 import NotFound from './pages/NotFound';
 
 export const routers = [
@@ -41,6 +42,7 @@ export const routers = [
       { path: '/renewal', name: 'renewal', element: <RenewalPage /> },
       { path: '/coaches/:coachId', name: 'coach-profile', element: <CoachProfilePage /> },
       { path: '/messages', name: 'messages', element: <MessagesPage /> },
+      { path: '/ai-chat', name: 'ai-chat', element: <AIChatPage /> },
       // Coach
       { path: '/coach', name: 'coach', element: <CoachSchedulePage /> },
       { path: '/coach/class/:id', name: 'coach-class', element: <CoachClassDetailPage /> },

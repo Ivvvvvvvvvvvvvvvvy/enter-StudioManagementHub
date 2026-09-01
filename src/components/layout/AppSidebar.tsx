@@ -45,6 +45,7 @@ function SideNav({ items }: { items: NavItem[] }) {
 const CUSTOMER_NAV: NavItem[] = [
   { to: '/', label: 'Home', icon: <Home className="w-4 h-4" /> },
   { to: '/courses', label: 'Browse Classes', icon: <BookOpen className="w-4 h-4" /> },
+  { to: '/ai-chat', label: 'AI Assistant', icon: <Sparkles className="w-4 h-4" /> },
   { to: '/my-bookings', label: 'My Bookings', icon: <CalendarDays className="w-4 h-4" /> },
   { to: '/private', label: 'Private Sessions', icon: <UserCheck className="w-4 h-4" /> },
   { to: '/health-profile', label: 'Health Profile', icon: <Heart className="w-4 h-4" /> },
@@ -55,6 +56,7 @@ const CUSTOMER_NAV: NavItem[] = [
 const COACH_NAV: NavItem[] = [
   { to: '/coach', label: 'My Schedule', icon: <CalendarDays className="w-4 h-4" /> },
   { to: '/coach/private', label: 'Private Sessions', icon: <UserCheck className="w-4 h-4" /> },
+  { to: '/ai-chat', label: 'AI Assistant', icon: <Sparkles className="w-4 h-4" /> },
   { to: '/messages', label: 'Messages', icon: <MessageSquare className="w-4 h-4" /> },
 ];
 
