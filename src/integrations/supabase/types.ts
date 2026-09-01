@@ -324,7 +324,7 @@ export type Database = {
           },
         ]
       }
-      log_events_00ba5edb_6f74_4015_be33_459c1e256df0: {
+      log_events_044893d4_71f8_417f_8d16_17bf22df7a6a: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -345,7 +345,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_00e0dbba_adad_4022_87ed_f8506d884631: {
+      log_events_253b3207_4474_40b0_aabb_23cdc240708c: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -366,7 +366,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_085373c9_7579_468c_8a43_f59f16287b7b: {
+      log_events_530a22f8_3e8d_4047_b6e5_7a1e773f2885: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -387,7 +387,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_1a154ad3_628a_472e_997a_e621e39bdc53: {
+      log_events_71ed6fe0_aa52_44ee_8a2a_a31d1dd5ab5e: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -408,7 +408,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_2badf17f_cd96_4472_b8ed_16d6ceaed6ad: {
+      log_events_723e7aae_bb25_4672_8883_058da51c8dd9: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -429,7 +429,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_601c4ddb_4b9d_41f4_b285_dec272790798: {
+      log_events_7487e9bb_c5b7_43ab_84c8_bcd89f4c5528: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -450,7 +450,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_911a5b30_08a6_42a9_b701_3cbf98c3b743: {
+      log_events_874dee03_039a_48f6_a71f_2feda06f18ee: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -471,7 +471,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_a4c206aa_774e_4c31_8f88_55363d6827a0: {
+      log_events_dacc3218_1e83_4966_ae7e_c38638f68754: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -492,7 +492,7 @@ export type Database = {
         }
         Relationships: []
       }
-      log_events_f4a487e0_5cf5_458f_9f9f_2c3830321631: {
+      log_events_e519b211_6598_4e39_9fff_02b7c8fb9c5b: {
         Row: {
           body: Json | null
           event_message: string | null
@@ -3109,294 +3109,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      attendances: {
+      moods: {
         Row: {
-          booking_id: string
-          marked_at: string | null
+          created_at: string
+          date: string
+          id: string
+          image_url: string | null
+          keywords: string[] | null
+          poetic_quote: string | null
+          raw_text: string
           status: string
-        }
-        Insert: {
-          booking_id: string
-          marked_at?: string | null
-          status: string
-        }
-        Update: {
-          booking_id?: string
-          marked_at?: string | null
-          status?: string
-        }
-        Relationships: []
-      }
-      bookings: {
-        Row: {
-          created_at: string
-          customer_id: string
-          id: string
-          notes: string | null
-          session_id: string
-          status: string
-        }
-        Insert: {
-          created_at: string
-          customer_id: string
-          id: string
-          notes?: string | null
-          session_id: string
-          status: string
-        }
-        Update: {
-          created_at?: string
-          customer_id?: string
-          id?: string
-          notes?: string | null
-          session_id?: string
-          status?: string
-        }
-        Relationships: []
-      }
-      conversations: {
-        Row: {
-          created_at: string
-          customer_id: string
-          id: string
-          last_message: string | null
-          last_message_at: string
-          participant_id: string
-          participant_role: string
-          session_id: string | null
-        }
-        Insert: {
-          created_at: string
-          customer_id: string
-          id: string
-          last_message?: string | null
-          last_message_at: string
-          participant_id: string
-          participant_role: string
-          session_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          customer_id?: string
-          id?: string
-          last_message?: string | null
-          last_message_at?: string
-          participant_id?: string
-          participant_role?: string
-          session_id?: string | null
-        }
-        Relationships: []
-      }
-      course_media: {
-        Row: {
-          course_id: string
-          created_at: string | null
-          description: string | null
-          id: string
-          image_task_ids: Json | null
-          images: Json | null
-          status: string | null
-          updated_at: string | null
-          video_task_id: string | null
-          video_url: string | null
-        }
-        Insert: {
-          course_id: string
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          image_task_ids?: Json | null
-          images?: Json | null
-          status?: string | null
-          updated_at?: string | null
-          video_task_id?: string | null
-          video_url?: string | null
-        }
-        Update: {
-          course_id?: string
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          image_task_ids?: Json | null
-          images?: Json | null
-          status?: string | null
-          updated_at?: string | null
-          video_task_id?: string | null
-          video_url?: string | null
-        }
-        Relationships: []
-      }
-      custom_agent_threads: {
-        Row: {
-          agent_id: string
-          created_at: string
-          id: string
-          latest_history_turn_id: number
-          project_id: string
-          running_turn_id: number | null
-          thread_id: string
-          title: string | null
-          updated_at: string
+          task_id: string | null
           user_id: string
-          version: number
         }
         Insert: {
-          agent_id: string
           created_at?: string
+          date: string
           id?: string
-          latest_history_turn_id?: number
-          project_id?: string
-          running_turn_id?: number | null
-          thread_id: string
-          title?: string | null
-          updated_at?: string
+          image_url?: string | null
+          keywords?: string[] | null
+          poetic_quote?: string | null
+          raw_text: string
+          status?: string
+          task_id?: string | null
           user_id: string
-          version?: number
         }
         Update: {
-          agent_id?: string
           created_at?: string
+          date?: string
           id?: string
-          latest_history_turn_id?: number
-          project_id?: string
-          running_turn_id?: number | null
-          thread_id?: string
-          title?: string | null
-          updated_at?: string
+          image_url?: string | null
+          keywords?: string[] | null
+          poetic_quote?: string | null
+          raw_text?: string
+          status?: string
+          task_id?: string | null
           user_id?: string
-          version?: number
         }
         Relationships: []
       }
-      membership_cards: {
+      profiles: {
         Row: {
-          customer_id: string
-          expiry: string
-          id: string
-          is_active: boolean
-          price: number
-          purchase_date: string
-          total_sessions: number | null
-          type: string
-          used_sessions: number
-        }
-        Insert: {
-          customer_id: string
-          expiry: string
-          id: string
-          is_active?: boolean
-          price: number
-          purchase_date: string
-          total_sessions?: number | null
-          type: string
-          used_sessions?: number
-        }
-        Update: {
-          customer_id?: string
-          expiry?: string
-          id?: string
-          is_active?: boolean
-          price?: number
-          purchase_date?: string
-          total_sessions?: number | null
-          type?: string
-          used_sessions?: number
-        }
-        Relationships: []
-      }
-      messages: {
-        Row: {
-          conversation_id: string
+          avatar_url: string | null
           created_at: string
           id: string
-          read: boolean
-          sender_id: string
-          text: string
+          username: string | null
         }
         Insert: {
-          conversation_id: string
-          created_at: string
+          avatar_url?: string | null
+          created_at?: string
           id: string
-          read?: boolean
-          sender_id: string
-          text: string
+          username?: string | null
         }
         Update: {
-          conversation_id?: string
+          avatar_url?: string | null
           created_at?: string
           id?: string
-          read?: boolean
-          sender_id?: string
-          text?: string
-        }
-        Relationships: []
-      }
-      orders: {
-        Row: {
-          amount: number
-          created_at: string
-          customer_id: string
-          description: string
-          id: string
-          membership_card_id: string | null
-          status: string
-          type: string
-        }
-        Insert: {
-          amount: number
-          created_at: string
-          customer_id: string
-          description: string
-          id: string
-          membership_card_id?: string | null
-          status: string
-          type: string
-        }
-        Update: {
-          amount?: number
-          created_at?: string
-          customer_id?: string
-          description?: string
-          id?: string
-          membership_card_id?: string | null
-          status?: string
-          type?: string
-        }
-        Relationships: []
-      }
-      private_lessons: {
-        Row: {
-          coach_id: string
-          created_at: string
-          customer_id: string
-          datetime: string
-          duration: number
-          id: string
-          notes: string | null
-          price: number
-          status: string
-        }
-        Insert: {
-          coach_id: string
-          created_at: string
-          customer_id: string
-          datetime: string
-          duration: number
-          id: string
-          notes?: string | null
-          price: number
-          status: string
-        }
-        Update: {
-          coach_id?: string
-          created_at?: string
-          customer_id?: string
-          datetime?: string
-          duration?: number
-          id?: string
-          notes?: string | null
-          price?: number
-          status?: string
+          username?: string | null
         }
         Relationships: []
       }
@@ -3449,7 +3218,7 @@ export type Database = {
         }
         Relationships: []
       }
-      messages_2026_06_03: {
+      messages_2026_08_31: {
         Row: {
           event: string | null
           extension: string
@@ -3482,7 +3251,7 @@ export type Database = {
         }
         Relationships: []
       }
-      messages_2026_06_04: {
+      messages_2026_09_01: {
         Row: {
           event: string | null
           extension: string
@@ -3515,7 +3284,7 @@ export type Database = {
         }
         Relationships: []
       }
-      messages_2026_06_05: {
+      messages_2026_09_02: {
         Row: {
           event: string | null
           extension: string
@@ -3548,7 +3317,7 @@ export type Database = {
         }
         Relationships: []
       }
-      messages_2026_06_06: {
+      messages_2026_09_03: {
         Row: {
           event: string | null
           extension: string
@@ -3581,7 +3350,7 @@ export type Database = {
         }
         Relationships: []
       }
-      messages_2026_06_07: {
+      messages_2026_09_04: {
         Row: {
           event: string | null
           extension: string
@@ -3826,30 +3595,6 @@ export type Database = {
           id?: string
           type?: Database["storage"]["Enums"]["buckettype"]
           updated_at?: string
-        }
-        Relationships: []
-      }
-      config: {
-        Row: {
-          description: string | null
-          key: string
-          updated_at: string | null
-          updated_by: string | null
-          value: Json
-        }
-        Insert: {
-          description?: string | null
-          key: string
-          updated_at?: string | null
-          updated_by?: string | null
-          value: Json
-        }
-        Update: {
-          description?: string | null
-          key?: string
-          updated_at?: string | null
-          updated_by?: string | null
-          value?: Json
         }
         Relationships: []
       }
