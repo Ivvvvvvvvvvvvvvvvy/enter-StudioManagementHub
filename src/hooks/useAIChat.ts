@@ -9,6 +9,11 @@ export interface ChatMessage {
   isStreaming?: boolean;
 }
 
+interface WireMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 // Error Message Strategy:
 // 1. ALWAYS prefer backend error.message (Single Source of Truth)
 // 2. Use FALLBACK_MESSAGES only when backend message is empty/missing
@@ -30,16 +35,42 @@ function getUserErrorMessage(code: string, backendMessage: string): string {
 const EDGE_FUNCTION_NAME = "ai-chat-7980ce877bff";
 const DEFAULT_MODEL = "anthropic/claude-sonnet-5";
 
-export function useAIChat() {
+export function useAIChat(options?: {
+  /**
+   * Optional context provider: returns a hidden preamble (e.g. a live business
+   * data snapshot) that is prepended to every outgoing user message so the
+   * model reasons over real data. The user's question stays clean in the UI
+   * bubble. Called fresh right before every send.
+   */
+  getContext?: () => string;
+}) {
+  const getContextRef = useRef(options?.getContext);
+  getContextRef.current = options?.getContext;
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sessionIdRef = useRef<string>(crypto.randomUUID());
   const abortControllerRef = useRef<AbortController | null>(null);
   const blocks = useRef(new Map<number, { type: "thinking" | "text"; content: string }>());
+  // Full conversation history exactly as sent to the backend (hidden context
+  // preamble included). Multi-turn prompts stay grounded in the data.
+  const wireHistoryRef = useRef<WireMessage[]>([]);
+  const assistantTextRef = useRef("");
+  const assistantPushedRef = useRef(false);
 
   const sendMessage = useCallback(async (content: string, model: string = DEFAULT_MODEL) => {
     abortControllerRef.current = new AbortController();
+
+    // Build the wire message: hidden context preamble + the user's question.
+    const context = getContextRef.current?.() ?? "";
+    const userWire: WireMessage = {
+      role: "user",
+      content: context ? `${context}\n\n${content}` : content,
+    };
+    wireHistoryRef.current.push(userWire);
+    assistantPushedRef.current = false;
+    assistantTextRef.current = "";
 
     const userMessage: ChatMessage = { role: "user", content };
     const assistantMessage: ChatMessage = {
@@ -62,9 +93,7 @@ export function useAIChat() {
         // Sticky session: reuse one X-Session-ID per conversation so the
         // AI gateway keeps conversation context.
         body: JSON.stringify({
-          messages: [...messages, userMessage].map(m => ({
-            role: m.role, content: m.content,
-          })),
+          messages: wireHistoryRef.current,
           model,
         }),
         signal: abortControllerRef.current.signal,
@@ -135,6 +164,7 @@ export function useAIChat() {
                 setMessages(prev => updateLastAssistant(prev, { thinking: block.content }));
               } else if (block?.type === "text") {
                 block.content += data.delta.text || "";
+                assistantTextRef.current += data.delta.text || "";
                 setMessages(prev => updateLastAssistant(prev, { content: block.content }));
               }
               break;
@@ -146,6 +176,15 @@ export function useAIChat() {
               break;
 
             case "message_stop":
+              // Persist the completed assistant reply into the wire history so
+              // follow-up turns keep the full conversation.
+              if (!assistantPushedRef.current && assistantTextRef.current) {
+                wireHistoryRef.current.push({
+                  role: "assistant",
+                  content: assistantTextRef.current,
+                });
+                assistantPushedRef.current = true;
+              }
               setMessages(prev => updateLastAssistant(prev, { isStreaming: false }));
               break;
           }
@@ -163,7 +202,7 @@ export function useAIChat() {
     } finally {
       setIsLoading(false);
     }
-  }, [messages]);
+  }, []);
 
   const cancel = useCallback(() => {
     abortControllerRef.current?.abort();
@@ -173,6 +212,9 @@ export function useAIChat() {
     abortControllerRef.current?.abort();
     sessionIdRef.current = crypto.randomUUID();
     blocks.current.clear();
+    wireHistoryRef.current = [];
+    assistantTextRef.current = "";
+    assistantPushedRef.current = false;
     setMessages([]);
     setError(null);
     setIsLoading(false);

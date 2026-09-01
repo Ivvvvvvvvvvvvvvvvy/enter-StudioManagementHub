@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useAuth } from '@/lib/auth';
 import { useStore } from '@/lib/store';
-import { useCustomAgentChat } from '@/lib/customAgent/useCustomAgentChat';
+import { useAIChat } from '@/hooks/useAIChat';
+import { ChatMessage } from '@/components/ai/ChatMessage';
 import { buildBusinessSnapshot } from '@/lib/customAgent/businessSnapshot';
-import { AgentMessage } from '@/components/agent/AgentMessage';
 import { ZenithAIOnboarding, hasSeenZenithAIOnboarding } from '@/components/agent/ZenithAIOnboarding';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
-  Sparkles, Send, Plus, MessageSquare, Square, Loader2, BarChart3, ChevronDown,
+  Sparkles, Send, Square, ChevronDown, BarChart3, RotateCcw,
 } from 'lucide-react';
 
 const SUGGESTIONS = [
@@ -19,8 +18,6 @@ const SUGGESTIONS = [
 ];
 
 export default function AIAnalystPage() {
-  const { user } = useAuth();
-  const appUserId = user?.userId ?? 'anonymous';
   const { state } = useStore();
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -53,7 +50,7 @@ export default function AIAnalystPage() {
       '```',
     ].join('\n');
   }, []);
-  const chat = useCustomAgentChat({ appUserId, locale: 'en', getDataSnapshot });
+  const chat = useAIChat({ getContext: getDataSnapshot });
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const taRef = useRef<HTMLTextAreaElement>(null);
@@ -84,11 +81,11 @@ export default function AIAnalystPage() {
     if (stickToBottomRef.current) {
       scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
     }
-  }, [chat.semanticMessages]);
+  }, [chat.messages]);
 
   const handleSend = async () => {
     const text = input.trim();
-    if (!text || chat.isRunning) return;
+    if (!text || chat.isLoading) return;
     setInput('');
     if (taRef.current) taRef.current.style.height = 'auto';
     // Sending your own message should always snap to the bottom.
@@ -104,52 +101,33 @@ export default function AIAnalystPage() {
     }
   };
 
-  const isEmpty = chat.semanticMessages.length === 0;
+  const isEmpty = chat.messages.length === 0;
 
   return (
     <div className="flex h-full">
       {showOnboarding && <ZenithAIOnboarding onClose={() => setShowOnboarding(false)} />}
-      {/* Thread history sidebar */}
-      <aside className="w-56 shrink-0 border-r border-border bg-card hidden lg:flex flex-col">
-        <div className="p-3 border-b border-border">
-          <Button onClick={() => void chat.startNewThread()} className="w-full gap-2" size="sm">
-            <Plus className="w-4 h-4" />
-            New chat
-          </Button>
-        </div>
-        <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
-          {chat.threadList.map(t => (
-            <button
-              key={t.thread_id}
-              onClick={() => void chat.openThread(t.thread_id)}
-              className={cn(
-                'flex items-center gap-2 w-full px-2.5 py-2 rounded text-xs text-left transition-colors',
-                t.thread_id === chat.activeThreadId
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
-              )}
-            >
-              <MessageSquare className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">{t.title || 'New chat'}</span>
-            </button>
-          ))}
-          {chat.threadList.length === 0 && (
-            <div className="text-xs text-muted-foreground px-2.5 py-2">No conversations yet</div>
-          )}
-        </div>
-      </aside>
-
       {/* Main chat */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <div className="shrink-0 px-6 py-3 border-b border-border bg-card flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-primary" />
+        <div className="shrink-0 px-6 py-3 border-b border-border bg-card flex items-center gap-2.5 justify-between">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+              <Sparkles className="w-4 h-4 text-primary" />
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-sm font-semibold text-foreground tracking-tight">Zenith AI</h1>
+              <p className="text-xs text-muted-foreground">Customer analyst &amp; business insights</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-sm font-semibold text-foreground tracking-tight">Zenith AI</h1>
-            <p className="text-xs text-muted-foreground">Customer analyst &amp; business insights</p>
-          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={chat.resetChat}
+            disabled={isEmpty}
+            className="h-8 text-xs text-muted-foreground shrink-0"
+          >
+            <RotateCcw className="w-3.5 h-3.5 mr-1.5" /> New chat
+          </Button>
         </div>
 
         {/* Transcript */}
@@ -164,11 +142,7 @@ export default function AIAnalystPage() {
             // makes their canvases visibly shake.
             style={{ scrollbarGutter: 'stable' }}
           >
-          {chat.booting ? (
-            <div className="h-full flex items-center justify-center text-muted-foreground">
-              <Loader2 className="w-5 h-5 animate-spin" />
-            </div>
-          ) : isEmpty ? (
+          {isEmpty ? (
             <div className="h-full flex flex-col items-center justify-center max-w-lg mx-auto text-center">
               <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
                 <BarChart3 className="w-7 h-7 text-primary" />
@@ -190,10 +164,8 @@ export default function AIAnalystPage() {
               </div>
             </div>
           ) : (
-            <div className="max-w-3xl mx-auto space-y-4">
-              {chat.semanticMessages.map(m => (
-                <AgentMessage key={m.id} message={m} locale="en" />
-              ))}
+            <div className="max-w-3xl mx-auto">
+              {chat.messages.map((m, i) => <ChatMessage key={i} message={m} />)}
             </div>
           )}
           </div>
@@ -209,10 +181,20 @@ export default function AIAnalystPage() {
           )}
         </div>
 
+        {/* Error banner */}
+        {chat.error && (
+          <div className="shrink-0 px-6 py-2.5 flex items-center gap-2 bg-destructive/10 border-t border-destructive/20 text-sm text-destructive">
+            <span className="flex-1">{chat.error}</span>
+          </div>
+        )}
+
         {/* Input */}
         <div className="shrink-0 px-6 py-4 border-t border-border bg-card">
           <div className="max-w-3xl mx-auto">
-            <div className="flex items-end gap-2 rounded-xl border border-border bg-background px-3 py-2 focus-within:border-primary/50 transition-colors">
+            <div className={cn(
+              "flex items-end gap-2 rounded-xl border border-border bg-background px-3 py-2 focus-within:border-primary/50 transition-colors",
+              chat.error && "border-destructive/40"
+            )}>
               <textarea
                 ref={taRef}
                 value={input}
@@ -226,8 +208,8 @@ export default function AIAnalystPage() {
                 placeholder="Ask me anything about members, revenue or classes…"
                 className="flex-1 resize-none bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none py-1.5 max-h-40"
               />
-              {chat.isRunning ? (
-                <Button size="icon" variant="ghost" onClick={chat.abort} className="shrink-0 h-8 w-8 text-destructive">
+              {chat.isLoading ? (
+                <Button size="icon" variant="ghost" onClick={chat.cancel} className="shrink-0 h-8 w-8 text-destructive">
                   <Square className="w-4 h-4 fill-current" />
                 </Button>
               ) : (
